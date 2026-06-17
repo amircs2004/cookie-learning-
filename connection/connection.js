@@ -1,39 +1,42 @@
-const mongoose = require('mongoose')
-let cashed = global.mongoose 
+const mongoose = require("mongoose");
+let cashed = global.mongoose;
 
-if(!cashed){
-    //assigned 
-    cashed = global.mongoose = {
-     conn : null , 
-     promise : null 
-    }
+if (!cashed) {
+  //assigned
+  cashed = global.mongoose = {
+    conn: null,
+    promise: null,
+  };
 }
 
 const coonectedDatabase = async () => {
-    if (cashed.conn){
-        return cashed.conn
-    }
-    //this function will stop mongoo db from waiitng if !connection
-    const stopConnectionHang = {
-      bufferCommands : false 
-    }
-   
-    if(!cashed.promise) {
-        //asign connection 
-        cashed.promise = mongoose.connect(process.env.MONGO_URL, stopConnectionHang ).then((mongooInstance)=>{
-            return mongooInstance
-        }).catch((error)=> {
-            cashed.promise = null 
-            throw error
-        })
-      
-    }
+  if (cashed.conn) {
+    return cashed.conn;
+  }
+  //this function will stop mongoo db from waiitng if !connection
+  const stopConnectionHang = {
+    bufferCommands: false,
+    serverSelectionTimeoutMS: 5000, // <--- EXTREMELY IMPORTANT: This stops the hang
+    socketTimeoutMS: 10000,
+  };
 
-    
-//await and promise and STORE the connection 
+  if (!cashed.promise) {
+    //asign connection
+    cashed.promise = mongoose
+      .connect(process.env.MONGO_URL, stopConnectionHang)
+      .then((mongooInstance) => {
+        return mongooInstance;
+      })
+      .catch((error) => {
+        cashed.promise = null;
+        throw error;
+      });
+  }
 
-cashed.conn = await cashed.promise
-return cashed.conn
-}
+  //await and promise and STORE the connection
 
-module.exports = coonectedDatabase
+  cashed.conn = await cashed.promise;
+  return cashed.conn;
+};
+
+module.exports = coonectedDatabase;
