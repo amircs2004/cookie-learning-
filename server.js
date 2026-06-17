@@ -3,16 +3,18 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const coonectedDatabase = require('./connection/connection')
+const testRouter = require('./routes/test.route')
 const app = express();
 
 app.use(
   cors({
     origin: true,
-    credentials: true, //so siri
+    credentials: true, // siri jidan lol
   }),
 );
 app.use(cookieParser());
 app.use(express.json());
+app.use('/api' , testRouter )
 
 const startServer = async () => {
   try {
