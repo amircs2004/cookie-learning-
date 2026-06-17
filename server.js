@@ -28,7 +28,7 @@ const startServer = async () => {
     console.error(error);
   }
 };
-startServer();
+//startServer();
 ///outside the function that starts the server i define the production type
 if (process.env.NODE_ENV  !== "production") {
   app.listen(Port, () => {
@@ -39,4 +39,4 @@ if (process.env.NODE_ENV  !== "production") {
 
 module.exports = app;
 
-console.log("test test");
+
