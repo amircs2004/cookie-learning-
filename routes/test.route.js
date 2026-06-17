@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const testingDataBase  = require('../connection/connection') 
+const testingDataBase  = require('../controllers/test') 
 
 router.get('/test' , testingDataBase )
 
