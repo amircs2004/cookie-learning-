@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const coonectedDatabase = require('./connection/connection')
 const testRouter = require('./routes/test.route')
+const Port = 5001
 const app = express();
 
 app.use(
@@ -18,7 +19,7 @@ app.use('/api' , testRouter )
 
 const startServer = async () => {
   try {
-    const isConnected = await coonectedDatabase(process.env.MONGO_URL);
+    const isConnected = await coonectedDatabase();
     if (!isConnected) {
       console.log("database not  connected");
     }
