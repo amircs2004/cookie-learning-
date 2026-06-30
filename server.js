@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const coonectedDatabase = require('./connection/connection')
 const testRouter = require('./routes/test.route')
+const authRouter = require('./routes/auth.route')
 const Port = 5001
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 app.use('/api' , testRouter )
+app.use('/api' , authRouter)
 
 const startServer = async () => {
   try {
