@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email : email.trim().toLowerCase() }); // Ensure email is trimmed and lowercased for consistency
     if (!user) {
       //if no user found get the f* out of here
       return res.status(404).json({ msg: "User not found" });
@@ -48,7 +48,7 @@ const registerUser = async (req, res) => {
 
   try {
     // if the user already registerd with the same email
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: email.trim().toLowerCase() });
     if (existingUser) {
       return res.status(400).json({ msg: "user already exists" });
     }
@@ -57,16 +57,12 @@ const registerUser = async (req, res) => {
 
     const newUser = await User.create({
       username,
-      email,
+      email: email.trim().toLowerCase(),
       password: hashedPassword,
     });
     res.status(201).json({
       msg: "user created successfully",
-      user: {
-        id: newUser._id,
-        username: newUser.username,
-        email: newUser.email,
-      },
+        data : newUser
     });
   } catch (error) {
     console.error("Registration Error:", error);
