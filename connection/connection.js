@@ -8,7 +8,7 @@ if (!cashed) {
     promise: null,
   };
 }
-
+//this is the right way to connect to the database and stop the connection from hanging if the database is not connected !
 const coonectedDatabase = async () => {
   if (cashed.conn) {
     return cashed.conn;
