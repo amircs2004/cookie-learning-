@@ -23,7 +23,7 @@ const coonectedDatabase = async () => {
   if (!cashed.promise) {
     //asign connection
     cashed.promise = mongoose
-      .connect(process.env.MONGO_URL, stopConnectionHang)
+      .connect(process.env.MONGODB_URI, stopConnectionHang)
       .then((mongooInstance) => {
         return mongooInstance;
       })

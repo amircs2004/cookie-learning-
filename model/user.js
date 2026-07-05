@@ -1,15 +1,10 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-    required: true,
-    unique: true, // Ensures no two users share the same ID
-  },
+ 
   username: {
     type: String,
     required: true,
-    unique: true,
   },
   email: {
     type: String,
@@ -18,7 +13,7 @@ const userSchema = new mongoose.Schema({
     trim: true, // Removes accidental whitespace
     lowercase: true,
   },
-  passWord: {
+  password: {
     type: String,
     required: true,
   },
