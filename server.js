@@ -5,19 +5,28 @@ const cors = require("cors");
 const coonectedDatabase = require('./connection/connection')
 const testRouter = require('./routes/test.route')
 const authRouter = require('./routes/auth.route')
+const createFormulaRouter = require('./routes/fromul.route')
 const Port = 5001
 const app = express();
 
 app.use(
   cors({
-    origin: true,
+    //i need to make sure that my server accepts the the froennd requests 
+    //i need to add origins inside of an array in case in the future i add more domaines
+    origin: 'https://cookiefrontend.vercel.app',
+    //i need to specify the methods that are allawed !!
+    methods : ['GET' , 'DELETE' , 'POST' , 'PUT' , 'OPTIONS'] ,
     credentials: true, // siri jidan lol
-  }),
+     allowedHeaders : ['Content-Type' , 'Authorization']
+  })
 );
 app.use(cookieParser());
 app.use(express.json());
 app.use('/api' , testRouter )
 app.use('/api' , authRouter)
+app.use('/api' , createFormulaRouter )
+
+
 
 const startServer = async () => {
   try {
