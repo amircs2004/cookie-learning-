@@ -7,8 +7,9 @@ const {
   updateFormulaById,
   getFormulaById,
 } = require("../controllers/fromuleControlle");
+const protect = require('../middleware/authId')
 
-router.post('/createFormula' , createFormula)
+router.post('/createFormula' , protect, createFormula)
 router.get('/getAllUsersFormulas' , getAllUsersFormulas)
 router.delete('/deleteFormulaById/:id' , deleteFormulaById)
 router.put('/updateFormulaById/:id' , updateFormulaById)

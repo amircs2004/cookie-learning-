@@ -6,6 +6,7 @@ const coonectedDatabase = require("../connection/connection");
 
 //saaFake/offer/auto
 
+
 const createFormula = async (req, res) => {
   const {
     carType,
@@ -31,7 +32,7 @@ const createFormula = async (req, res) => {
       numbrePlace,
       numéroDimmatriculation,
       valeurVénale,
-      driver,
+      driver : req.user.id,
       userId: req.user.id,
     };
     const createFormule = await saa.create(ForlulaData);
@@ -48,7 +49,10 @@ const createFormula = async (req, res) => {
     });
     */
    //How tf  are u sending a undefined token withiut define it rude  like ur telling the compiler that hey look at that person and u were just mocking it !!
-
+    if(!createFormule){
+       console.log('error');
+       
+    }
 
     res.status(201).json({
       msg: "ur formula has been created ",
@@ -56,9 +60,11 @@ const createFormula = async (req, res) => {
       //token: token
     });
   } catch (error) {
+    console.error("DEBUG - Mongoose Validation Error:", error); // <-- THIS IS THE KEY
     res.status(500).json({
       msg: "Server error",
       error: error.message,
+      stack : error.stack
     });
   }
 };

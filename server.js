@@ -17,7 +17,7 @@ app.use(
     //i need to specify the methods that are allawed !!
     methods : ['GET' , 'DELETE' , 'POST' , 'PUT' , 'OPTIONS'] ,
     credentials: true, // siri jidan lol
-     allowedHeaders : ['Content-Type' , 'Authorization']
+     allowedHeaders : ['Content-Type' , 'Authorization' , 'Cookie']
   })
 );
 app.use(cookieParser());

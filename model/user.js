@@ -72,7 +72,8 @@ const userSchema = new mongoose.Schema({
     "Tlemcen",
     "Tiaret",
     "Tizi Ouzou",
-    "Alger",
+    "Algiers",
+    "Oran" ,
     "Djelfa", ]
   },
   // i skipped the region because its too much work and i aint getting no money so 

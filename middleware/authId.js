@@ -46,37 +46,29 @@ return res.status(401).json({ msg: "Not authorized, token failed" });
 };
 */
 const protect = async (req, res, next) => {
-  let token;
-   console.log("DEBUG - Middleware reached, Headers:", req.headers.authorization);
-  // Check if the Authorization header exists and starts with "Bearer"
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
+  // 1. Try to get token from header OR cookie
+  const authHeader = req.headers.authorization;
+  const token = (authHeader && authHeader.startsWith("Bearer")) 
+    ? authHeader.split(" ")[1] 
+    : req.cookies?.token; // Added check for cookies
 
-    try {
-      // Extract the token from the "Bearer <token>" string
-      token = req.headers.authorization.split(" ")[1];
-      
-      // Verify the token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      
-      // Attach the user info to the request object
-      req.user = {
-        id: decoded.id,
-      };
-      
-      return next();
-    } catch (error) {
-      // If verification fails
-      return res.status(401).json({ msg: "Not authorized, token failed" });
-    }
-  }
-
-  // If no authorization header was found
+  // 2. If no token found, block access
   if (!token) {
     return res.status(401).json({ msg: "Not authorized, no token" });
   }
+
+  try {
+    // 3. Verify the token using the correct secret
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    // 4. Attach user info
+    req.user = { id: decoded.id || decoded.userId || decoded._id };
+    next();
+  } catch (error) {
+    return res.status(401).json({ msg: "Not authorized, token failed" });
+  }
 };
+
+module.exports = protect;
 
 module.exports = protect;

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const CarVeriosnSpefications = new mongoose.Schema({
-  moteur: { type: String, required: true },
+  moteur: { type: String, required: true  , enum :["200 d Exclusif +++" , "200 d Exclusif"]},
   annee: { type: Number },
   energie: {
     type: String,
