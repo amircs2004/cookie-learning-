@@ -40,6 +40,7 @@ const loginUser = async (req, res) => {
     const token = jwt.sign(payToll, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
+    /*
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
@@ -47,11 +48,20 @@ const loginUser = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
       path: "/", // Crucial: ensures the cookie is sent on all routes
     });
+    */
+    const refreshToken = jwt.sign(
+      { id: user._id },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: "7d" },
+    );
+
+ 
     res.status(200).json({
       msg: "1",
       // i am wrapping _id inside the id object
       user: { id: user._id, username: user.username },
-      token : token
+      token: token,
+      refreshToken : refreshToken
     });
   } catch (error) {
     res.status(500).json({ msg: "Server error", error: error.message });
@@ -100,6 +110,7 @@ const registerUser = async (req, res) => {
       expiresIn: "1d",
     });
     // That now i have the token i need to send with a cookie
+    /*
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
@@ -109,12 +120,24 @@ const registerUser = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
       path: "/", // Crucial: ensures the cookie is sent on all routes
     });
-    // i have to create token
+    */
+   const accessToken = jwt.sign(
+      { id: newUser._id, username: newUser.username }, 
+      process.env.JWT_SECRET, 
+      { expiresIn: "1d" }
+    );
+    const refreshToken = jwt.sign(
+      { id: newUser._id }, 
+      process.env.REFRESH_TOKEN_SECRET, 
+      { expiresIn: "7d" }
+    );
+  
     res.status(201).json({
       msg: "user created successfully",
       // i Need to send the token !!!!!!!!!!!!!!!!!!!!!!
-      token: token, // since i am sending the token before then data object that wrapps the newuser in the frontend i need to define  this way  localStorage.setItem('token', result.token);
+      token: accessToken, // since i am sending the token before then data object that wrapps the newuser in the frontend i need to define  this way  localStorage.setItem('token', result.token);
       data: newUser,
+       refreshToken: refreshToken
     });
   } catch (error) {
     console.error("DEBUG - Registration Controller Error:", error);
@@ -241,5 +264,4 @@ module.exports = {
   testAuthRouter,
   safeModification,
   getUserInfos,
-  
 };

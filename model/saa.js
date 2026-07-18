@@ -6,14 +6,14 @@ const CarVeriosnSpefications = new mongoose.Schema({
   energie: {
     type: String,
     enum: ["Diesel", "Essence", "Hybride", "Électrique"],
-    required: true,
+  
   },
 });
 
 const saaChema = new mongoose.Schema({
   carType: {
     type: String,
-    required: true,
+  
     enum: [
       "renault",
       "dacia",
@@ -34,7 +34,7 @@ const saaChema = new mongoose.Schema({
   //i will only specify mercedeces // Mercedes classe A !!
   model: {
     type: String,
-    required: true,
+  
     enum: [
       "mercedes classe a",
       "mercedes classe b",
@@ -58,7 +58,7 @@ const saaChema = new mongoose.Schema({
   version: [CarVeriosnSpefications],
   puissanceFiscale: {
     type: String,
-    required: true,
+  
     enum: [
       "4cv",
       "5cv",
@@ -77,23 +77,23 @@ const saaChema = new mongoose.Schema({
   },
   numbrePlace: {
     type: Number,
-    required: true,
+  
     enum: [2, 3, 4, 5, 6, 7],
   },
   numéroDimmatriculation: {
     type: Number,
-    required: true,
+  
     unique: true,
   },
   valeurVénale: {
     type: Number,
-    required: true,
+  
   },
   driver: {
     // the deriver which he is the user will specify their kind of car and the car will be linked to the user
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
+  
   },
 });
 

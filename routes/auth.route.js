@@ -12,12 +12,14 @@ const {
   testController,
 } = require("../controllers/hackableLogin");
 const protect = require("../middleware/authId");
+const refreshAceessToken = require('../controllers/cookieManegment')
+
 router.post("/login", loginUser);
 router.post("/register", registerUser);
 router.post("/hackAbleUpdate/:id", protect, hackableUpdate);
 router.get("/testController", testController);
 router.put("/safeModification/:id", protect, safeModification);
 router.get("/user", protect, getUserInfos);
-
+//router.post('/refresh', refreshAceessToken);
 
 module.exports = router;

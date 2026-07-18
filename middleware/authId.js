@@ -50,7 +50,7 @@ const protect = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   const token = (authHeader && authHeader.startsWith("Bearer")) 
     ? authHeader.split(" ")[1] 
-    : req.cookies?.token; // Added check for cookies
+    : null 
 
   // 2. If no token found, block access
   if (!token) {
@@ -71,4 +71,3 @@ const protect = async (req, res, next) => {
 
 module.exports = protect;
 
-module.exports = protect;
